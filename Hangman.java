@@ -29,15 +29,18 @@ public class Hangman {
     public static void main(String[] args) {
         Random rand = new Random();
         Scanner scan = new Scanner(System.in);
-        int n = rand.nextInt(4);
+        int n = rand.nextInt(7);
         
         
-        String[] words = new String[5];
-        words[0] = "scientific";
+        String[] words = new String[8];
+        words[0] = "intensity";
         words[1] = "christmas";
-        words[2] = "station";
+        words[2] = "wicked";
         words[3] = "instruction";
         words[4] = "application";
+        words[5] = "lightweight";
+        words[6] = "ultimate";
+        words[7] = "quality";
      
         String targetWord = words[n];
         StringBuilder sb1 = new StringBuilder();
