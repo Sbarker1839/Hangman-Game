@@ -1,19 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package hangman;
 
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.Random;
 import java.lang.StringBuilder;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 /**
  *
- * @author Setup
+ * @author Steven Barker
  */
 public class Hangman {
     
+    //Checks to see if all of users' guesses leads to correct word
     public static boolean check(String target,StringBuilder guess){
         
         String x = guess.toString();
@@ -28,7 +30,7 @@ public class Hangman {
         Random rand = new Random();
         Scanner scan = new Scanner(System.in);
         int n = rand.nextInt(4);
-        //System.out.println(n);
+        
         
         String[] words = new String[5];
         words[0] = "scientific";
