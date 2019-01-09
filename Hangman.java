@@ -39,23 +39,54 @@ public class Hangman {
      
         String targetWord = words[n];
         StringBuilder sb1 = new StringBuilder();
+        StringBuilder sb2 = new StringBuilder();
         for(int i = 0;i<targetWord.length();i++){
                 sb1.append("-");
-        }
-        StringBuilder sb2 = new StringBuilder();
+            }
+        boolean playing = false;
         
         System.out.println("Welcome to Hangman! \nPress 1 to start or 0 to exit");
         int start = scan.nextInt();
         int lives = 6;
-        
         if(start == 1){
-            System.out.println("You have "+lives+" guesses to figure out your word");
+            playing = true;
+        }
+        Hangman.play(targetWord, lives, sb1, sb2, scan);
+        
+        while(playing = true){
+            System.out.println("Would you like to play again?\nPress 1 to start or 0 to exit");
+            start = scan.nextInt();
+            if(start ==1){
+                
+                n = rand.nextInt(4);
+                targetWord = words[n];
+                StringBuilder sb3 = new StringBuilder();
+                StringBuilder sb4 = new StringBuilder();
+                for(int i = 0;i<targetWord.length();i++){
+                sb3.append("-");
+                }
+                lives = 6;
+                Hangman.play(targetWord, lives, sb3, sb4, scan);
+            }
+            else if(start == 0){
+                System.out.println("Thanks for playing!");
+                System.exit(0);
+            }
+            
+        }
+    }
+    
+    public static void play(String targetWord, int lives, StringBuilder sb1, StringBuilder sb2, Scanner scan){
+        System.out.println("You have "+lives+" lives to figure out your word");
+        StringBuilder sb5 = new StringBuilder();
             System.out.println("Your word is: "+ sb1);
-            while (lives > -1){
+            while (lives > 0){
                 
                 System.out.println("Enter a letter to guess, or type \"guess\" to enter your guess");
                 
                 String answer = scan.next();
+                
+                
                 
                 if(answer.equals("guess")){
                         System.out.println("What is your guess");
@@ -63,11 +94,13 @@ public class Hangman {
                         
                         if(guess.equals(targetWord)){
                             System.out.println("YOU WIN! Your word was: " +targetWord);
-                            System.exit(0);
+                            return;
+                            
                         }
                         else{
                             lives = lives -1;
-                            System.out.println("Sorry that guess was incorrect.\n You have "+lives+" guess remaining");
+                            
+                            System.out.println("Sorry that guess was incorrect.\nYou have "+lives+" lives remaining");
                             System.out.println("Your word is "+sb1);
                             
                         }
@@ -75,6 +108,15 @@ public class Hangman {
                     }
                 else{
                     int correctCount = 0;
+                    int prevGuess = 0;
+                    
+                    for(int i = 0;i<sb5.length();i++){
+                        
+                        if(sb5.toString().contains(answer)){
+                            prevGuess++;
+                            correctCount++;
+                        }
+                    }
                     for(int i = 0;i<targetWord.length();i++){
                         char place = targetWord.charAt(i);
                         String x = Character.toString(place);
@@ -83,21 +125,34 @@ public class Hangman {
                         if(answer.equals(x)){
                             sb1.deleteCharAt(i);
                             sb1.insert(i, answer);
-                            System.out.println("Good guess! Your word now is "+sb1);
+                            sb5.append(answer);
                             correctCount++;
                         }
                     
                     }
+                    
+                    if(correctCount>0 && prevGuess == 0){
+                        System.out.println("Good guess! Your word now is "+sb1);
+                        System.out.println("Your past guesses are: " + sb2);
+                    }
+                    else if(correctCount>0&& prevGuess>0){
+                        System.out.println("You already guessed that silly! Try again.");
+                        System.out.println("Your word is "+sb1);
+                    }
+                    
                     if(Hangman.check(targetWord,sb1) == true){
                         System.out.println("You win! the word was "+targetWord);
-                        break;
+                        return;
                     }
                     
                     
                     if(correctCount == 0){
                             lives = lives -1;
-                            System.out.println("Sorry that guess was incorrect.\n You have "+lives+" guess remaining");
+                            System.out.println("Sorry that guess was incorrect.\nYou have "+lives+" lives remaining");
                             System.out.println("Your word is "+sb1);
+                            sb2.append(answer +", ");
+                            sb5.append(answer);
+                            System.out.println("Your past guesses are: " + sb2);
                         }
                 }
             }
@@ -106,4 +161,4 @@ public class Hangman {
         }
     }
     
-}
+
