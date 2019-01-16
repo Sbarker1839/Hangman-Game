@@ -26,7 +26,27 @@ public class Hangman {
             return false;
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        
+        String site = Jsoup.connect("http://watchout4snakes.com/wo4snakes/Random/RandomWord").get().html();
+        Document doc = Jsoup.parse(site);
+        String title = doc.title();
+        System.out.println(title);
+        
+        Element body = doc.body();
+        Element wordList = body.getElementById("result");
+        
+        Elements par = body.getElementsByTag("table");
+        System.out.println(par.html());
+        //Elements paragraphs = body.getAllElements();
+        //for(Element paragraph : paragraphs){
+        //    System.out.println(paragraph.text());
+        //}
+        
+        System.out.println(wordList.attributes().html());
+        //System.out.println(wordList.attributes());
+        
+        
         Random rand = new Random();
         Scanner scan = new Scanner(System.in);
         int n = rand.nextInt(7);
